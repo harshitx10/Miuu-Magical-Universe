@@ -1,0 +1,86 @@
+--- app.js.bak
++++ app.js
+@@ -906,7 +906,7 @@
+   const [quizCompleted, setQuizCompleted] = useState(false);
+   const [complimentMachineWord, setComplimentMachineWord] = useState("Click to Spin! ✨");
+   const [giftIndex, setGiftIndex] = useState(null);
+-  const [bookPage, setBookPage] = useState(3);
++  const [bookPage, setBookPage] = useState(0);
+   const [connectedStars, setConnectedStars] = useState([]);
+   const [openedLetter, setOpenedLetter] = useState(null);
+   const [localOpen, setLocalOpen] = useState({});
+@@ -2900,16 +2900,31 @@
+   const [msg, setMsg] = useState("");
+ 
+   const clues = [
+-    { q: "Clue #1: I have keys but open no locks, I have space but no room, you can enter but you can't go outside. What am I?", a: ["KEYBOARD", "COMPUTER", "LAPTOP"] },
+-    { q: "Clue #2: The more of them you take, the more you leave behind. What are they?", a: ["FOOTSTEPS", "STEPS", "FOOTSTEP"] },
+-    { q: "Clue #3: I follow you all day, but when the moon shines, I fade away. What am I?", a: ["SHADOW", "SHADOWS"] },
+-    { q: "Clue #4: What is Miuu's birthday month name? (Write in English, e.g. January)", a: ["JUNE"] }
++    {
++      q: `Tumhari birthday journey ka pehla chapter yaad hai?
++
++Ek chhota sa gift,
++jo haathon mein pehna jaata hai,
++aur jiske saath bahut saari wishes bhi di gayi thi. ✨
++
++Woh gift kya tha? 🤍`,
++      a: ["bracelet"]
++    },
++    {
++      q: `Main koi city nahi,
++koi country nahi,
++
++phir bhi ek ladke ki favourite place hoon. 💖
++
++Main kya hoon? ✨`,
++      a: ["miuu"]
++    }
+   ];
+ 
+   const checkAnswer = (e) => {
+     e.preventDefault();
+-    const cleanInput = val.trim().toUpperCase();
+-    const targets = clues[clue].a;
++    const cleanInput = val.trim().toLowerCase();
++    const targets = clues[clue].a.map(ans => ans.toLowerCase());
+ 
+     if (targets.includes(cleanInput)) {
+       setVal("");
+@@ -2933,8 +2948,8 @@
+     <div className="treasure-hunt-card glass-panel">
+       ${clue < clues.length ? html`
+         <div>
+-          <h4>Clue ${clue + 1} of ${clues.length}</h4>
+-          <p className="clue-box">${clues[clue].q}</p>
++          <h4>Clue ${clue + 1} of ${clues.length} ${clue === 0 ? '💖' : '🌙'}</h4>
++          <p className="clue-box" style=${{ whiteSpace: 'pre-line' }}>${clues[clue].q}</p>
+           <form onSubmit=${checkAnswer}>
+             <input
+               type="text"
+@@ -2950,10 +2965,21 @@
+         </div>
+       ` : html`
+         <div>
+-          <h3>🎁 Congratulations!</h3>
+-          <p style=${{ margin: '20px 0', fontSize: '1.15rem', color: 'var(--light-gold)' }}>
+-            "You cracked all the clues! The secret treasure is unlocked:
+-            You are the most precious gem in the galaxy. Never forget that! 💎"
++          <h3>🎁 Treasure Unlocked 🎁</h3>
++          <p style=${{ margin: '20px 0', fontSize: '1.15rem', color: 'var(--light-gold)', whiteSpace: 'pre-line', lineHeight: '1.8' }}>
++            Dekha?
++
++            Ek answer tumhari yaad thi,
++            aur doosra answer tum khud thi. 🤍
++
++            Kyuki is poori duniya mein,
++            meri favourite jagah,
++            meri favourite memory,
++            aur meri favourite person...
++
++            sab tum ho. ✨
++
++            Happy 20th Birthday Miuu 🌙💖
+           </p>
+           <button className="password-btn" onClick=${() => setClue(0)}>Reset Hunt 🔄</button>
+         </div>
